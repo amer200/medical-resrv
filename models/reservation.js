@@ -4,7 +4,7 @@ const resrvSchema = mongoose.Schema({
     name: String,
     email: String,
     phone: String,
-    debartment: String,
+    department: String,
 })
 
 module.exports = mongoose.model('Resrv', resrvSchema);

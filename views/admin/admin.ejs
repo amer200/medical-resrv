@@ -44,47 +44,106 @@
                             <span class="d-none d-sm-inline mx-1">admin</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                            <li><a class="dropdown-item" href="#">اضافة محرر</a></li>
-                            <li><a class="dropdown-item" href="#">عرض المحررين</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-                            <li><a class="dropdown-item" href="#">تسجيل الخروج</a></li>
+                            <li><a class="dropdown-item" href="/admin/logout">تسجيل الخروج</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <!-- <div class="col d-flex flex-column h-sm-100">
+            <div class="col d-flex flex-column h-sm-100">
                 <main class="row overflow-auto">
                     <div class="col pt-4">
                         <form method="post" id="main-form" method="post">
                             <div class="mb-3">
-                                <label class="form-label">الرئيسية</label>
-                                <input type="text" class="form-control" id="i-1" placeholder="lorem">
+                                <label class="form-label">بحث بالاسم</label>
+                                <input type="text" class="form-control" id="search-input" placeholder="الاسم">
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">lor ipsum</label>
-                                <div id="editor">
-                                    <p>Hello World!</p>
-                                    <p>Some initial <strong>bold</strong> text</p>
-                                    <p><br></p>
-                                </div>
-                            </div>
-                            <input type="hidden" id="hide">
-                            <button type="button" class="btn btn-dark" id="subBtn"> حفظ</button>
+                            <button type="button" class="btn btn-dark" id="subBtn" onclick="searchFunc()"> بحث</button>
                         </form>
+                        <ul class="list-group" id="listGroup"></ul>
                     </div>
                 </main>
-            </div> -->
+            </div>
             <div class="col d-flex flex-column h-sm-100 img-gallery">
                 <h3>الحجوزات</h3>
                 <div class="row">
                     <ul class="list-group">
                         <% r.forEach(r=>{ %>
-                            <li class="list-group-item">
-                                <%=r.name%>/ phone: <%=r.phone%> %>
-                            </li>
-                            <%})%>
+                            <% let i=1 %>
+                                <li class="list-group-item">
+                                    <%=i++%>- <%=r.name%>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#staticBackdrop<%=r._id%>">
+                                                تعديل /عرض
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="staticBackdrop<%=r._id%>"
+                                                data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                                                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">
+                                                                <%=r.name%>
+                                                            </h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="/admin/edit-reserv/<%=r._id%>" method="post">
+                                                                <div class="mb-3">
+                                                                    <label for="exampleInputEmail1"
+                                                                        class="form-label">name</label>
+                                                                    <input type="text" name="name" class="form-control"
+                                                                        id="name" value="<%=r.name%>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleInputPassword1"
+                                                                        class="form-label">email</label>
+                                                                    <input type="email" name="email"
+                                                                        class="form-control" id="email"
+                                                                        value="<%=r.email%>">
+                                                                </div>
+                                                                <div class="mb-3">
+                                                                    <label for="exampleInputPassword1"
+                                                                        class="form-label">phone</label>
+                                                                    <input type="text" name="phone" class="form-control"
+                                                                        id="phone" value="<%=r.phone%>">
+                                                                </div>
+                                                                <div class="mb-3 ">
+                                                                    <label for="exampleInputPassword1"
+                                                                        class="form-label">department</label>
+                                                                    <select name="department" id="department"
+                                                                        class="form-select">
+                                                                        <option value="">
+                                                                            <%=r.department%>
+                                                                        </option>
+                                                                        <option value="Department 1">Department 1
+                                                                        </option>
+                                                                        <option value="Department 2">Department 2
+                                                                        </option>
+                                                                        <option value="Department 3">Department 3
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                                <button type="submit"
+                                                                    class="btn btn-primary">Submit</button>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <form action="/admin/delete-reserv/<%=r._id%>" method="post" style="    display: inline;
+                                                        margin-right: 10px;"><button type="button"
+                                                    class="btn btn-danger" onclick="subForm(this)">حذف</button></form>
+                                </li>
+                                <%})%>
 
                     </ul>
                 </div>
